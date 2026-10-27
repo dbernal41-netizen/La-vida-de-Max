@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <!-- ╔═══════════════════════════════════════════════════════╗
+       ║  GUÍA: QUÉ PUEDES CAMBIAR TÚ SOLA EN ESTE ARCHIVO     ║
+       ╚═══════════════════════════════════════════════════════╝
+       Este archivo es el "esqueleto": los textos fijos y el orden de las pantallas.
+       · TEXTOS: títulos, subtítulos y letreros de botones están escritos directo aquí. Busca el texto con Ctrl+F y cámbialo.
+         (Los textos que cambian solos —razas, accesorios, frases, misiones— están en app.js; mira su guía.)
+       · LOGO: assets/logo.png (se repite en varias pantallas; el "?v=3" fuerza al navegador a recargarlo cuando lo cambies).
+       · FOTOS de perrito/gatito de la pantalla 6: assets/perrito.png y assets/gatito.png.
+       · PANTALLAS: cada <section data-screen="nombre"> es una pantalla. El comentario "PANTALLA N" te dice cuál es.
+         Un botón con data-go="nombre" lleva a esa pantalla. Para cambiar a dónde va un botón, cambia ese nombre.
+       · COLORES, FONDOS y TAMAÑOS: están en styles.css (arriba hay una guía igual a esta).
+       · BUSCA 👉 (Ctrl+F): antes de cada fondo hay una nota que dice qué archivo o qué línea cambiar.
+       · "PENDING" = falta algo por definir. "POR INVESTIGAR" = dato por verificar antes de entregar.
+       -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>La vida de Max</title>
+
+  <!-- Tipografías: Baloo 2 (capa de juego) + Quicksand (Guía Real) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Quicksand:wght@400;500;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="phone" id="app">
+
+    <!-- ========== PANTALLA 1: CARGA / APERTURA ========== -->
+    <section class="screen screen--splash is-active" data-screen="splash">
+      <div class="splash__center">
+        <!-- PENDING: reemplazar assets/logo.png por el logo final (PNG con fondo transparente) -->
+        <img class="logo logo--splash" src="assets/logo.png?v=3" alt="La vida de Max" />
+      </div>
+
+      <footer class="splash__footer">
+        <div class="brand brand--pets">
+          <svg class="brand__paw" viewBox="0 0 64 64" aria-hidden="true">
+            <ellipse cx="14" cy="28" rx="6" ry="8" transform="rotate(-20 14 28)" />
+            <ellipse cx="26" cy="16" rx="6" ry="8" transform="rotate(-8 26 16)" />
+            <ellipse cx="40" cy="16" rx="6" ry="8" transform="rotate(8 40 16)" />
+            <ellipse cx="52" cy="28" rx="6" ry="8" transform="rotate(20 52 28)" />
+            <path d="M32 30c-9 0-18 9-18 17 0 6 5 9 10 9 3 0 5-1 8-1s5 1 8 1c5 0 10-3 10-9 0-8-9-17-18-17z" />
+          </svg>
+          <span class="brand__name">PETS EXPLORE</span>
+        </div>
+        <span class="brand__divider" aria-hidden="true"></span>
+        <span class="brand__company">Max Games Company</span>
+      </footer>
+    </section>
+
+    <!-- ========== PANTALLA 2: PERMISO DE NOTIFICACIONES ========== -->
+    <section class="screen screen--notif" data-screen="notificaciones">
+      <!-- 👉 FONDO de Notificaciones: el mapa. Se cambia en styles.css → --fondo-imagen (assets/fondo.png) -->
+      <div class="notif__bg" aria-hidden="true"></div>
+
+      <div class="notif__content">
+        <img class="logo logo--notif" src="assets/logo.png?v=3" alt="La vida de Max" />
+
+        <div class="notif__bottom">
+          <button class="btn-continuar" id="btn-continuar" data-go="inicio-sesion" disabled>
+            <svg class="btn-continuar__paw" viewBox="0 0 64 64" aria-hidden="true">
+              <ellipse cx="14" cy="28" rx="6" ry="8" transform="rotate(-20 14 28)" />
+              <ellipse cx="26" cy="16" rx="6" ry="8" transform="rotate(-8 26 16)" />
+              <ellipse cx="40" cy="16" rx="6" ry="8" transform="rotate(8 40 16)" />
+              <ellipse cx="52" cy="28" rx="6" ry="8" transform="rotate(20 52 28)" />
+              <path d="M32 30c-9 0-18 9-18 17 0 6 5 9 10 9 3 0 5-1 8-1s5 1 8 1c5 0 10-3 10-9 0-8-9-17-18-17z" />
+            </svg>
+            <span class="btn-continuar__label">CONTINUAR</span>
+            <span class="btn-continuar__arrow" aria-hidden="true">›</span>
+          </button>
+
+          <p class="notif__secure">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5l-8-3zm-1 14-3.5-3.5 1.4-1.4L11 13.2l4.1-4.1 1.4 1.4L11 16z" />
+            </svg>
+            Experiencia 100% segura
+          </p>
+        </div>
+      </div>
+
+      <!-- Capa oscura + diálogo (estilo permiso del sistema) -->
+      <div class="dialog-overlay" id="dialog-overlay">
+        <div class="dialog" role="dialog" aria-labelledby="dialog-title" aria-describedby="dialog-text">
+          <h2 class="dialog__title" id="dialog-title">La Vida de Max quiere enviarte notificaciones</h2>
+          <p class="dialog__text" id="dialog-text">
+            Las notificaciones pueden incluir alertas, sonidos y contadores en íconos, los cuales se pueden establecer en Configuración.
+          </p>
+          <div class="dialog__actions">
+            <button class="dialog__btn" data-permission="no">No permitir</button>
+            <button class="dialog__btn" data-permission="si">Permitir</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== PANTALLA 3: INICIO DE SESIÓN ========== -->
+    <section class="screen screen--login" data-screen="inicio-sesion">
+      <!-- PENDING: cambiar este degradado por la imagen real del fondo (assets/fondo.png) -->
+      <!-- 👉 FONDO de Inicio de sesión y Edad: el mapa. Se cambia en styles.css → --fondo-imagen (assets/fondo.png) -->
+      <div class="login__bg" aria-hidden="true"></div>
+
+      <div class="login__content">
+        <img class="logo logo--login" src="assets/logo.png?v=3" alt="La vida de Max" />
+
+        <div class="login__options" id="login-options">
+
+          <!-- Cuenta nueva / cuenta existente -->
+          <div class="login__main">
+            <button class="choice choice--empezar" data-go="edad">
+              <svg class="choice__icon" viewBox="0 0 64 64" aria-hidden="true">
+                <ellipse cx="14" cy="28" rx="6" ry="8" transform="rotate(-20 14 28)" />
+                <ellipse cx="26" cy="16" rx="6" ry="8" transform="rotate(-8 26 16)" />
+                <ellipse cx="40" cy="16" rx="6" ry="8" transform="rotate(8 40 16)" />
+                <ellipse cx="52" cy="28" rx="6" ry="8" transform="rotate(20 52 28)" />
+                <path d="M32 30c-9 0-18 9-18 17 0 6 5 9 10 9 3 0 5-1 8-1s5 1 8 1c5 0 10-3 10-9 0-8-9-17-18-17z" />
+              </svg>
+              <span>¡EMPEZAR AVENTURA!</span>
+            </button>
+
+            <button class="choice choice--continuar" data-go="edad">
+              <svg class="choice__icon" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M8 5v14l11-7z" />
+              </svg>
+              <span>¡CONTINUAR AVENTURA!</span>
+            </button>
+          </div>
+
+          <!-- Acceso con otras cuentas -->
+          <div class="login__social">
+            <button class="choice choice--social" data-go="edad"><span>CONTINUAR CON GOOGLE</span></button>
+            <button class="choice choice--social" data-go="edad"><span>CONTINUAR CON APPLE</span></button>
+            <button class="choice choice--social" data-go="edad"><span>CONTINUAR CON CORREO</span></button>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== PANTALLA 4: EDAD ========== -->
+    <section class="screen screen--edad" data-screen="edad">
+      <!-- PENDING: mismo fondo del juego (assets/fondo.png) -->
+      <!-- 👉 FONDO de Inicio de sesión y Edad: el mapa. Se cambia en styles.css → --fondo-imagen (assets/fondo.png) -->
+      <div class="login__bg" aria-hidden="true"></div>
+
+      <div class="edad__content">
+        <img class="logo logo--edad" src="assets/logo.png?v=3" alt="La vida de Max" />
+
+        <form class="edad__card" id="edad-form" novalidate>
+          <h2 class="edad__title">¿Cuál es tu edad?</h2>
+          <p class="edad__text">Elige tu edad para adaptar las increíbles aventuras con Max.</p>
+
+          <!-- inputmode numeric = en el celular sale el teclado de números -->
+          <input
+            class="edad__input"
+            id="edad-input"
+            type="text"
+            inputmode="numeric"
+            pattern="[0-9]*"
+            maxlength="2"
+            autocomplete="off"
+            enterkeyhint="go"
+            aria-label="Tu edad"
+            placeholder="Tu edad"
+          />
+
+          <button class="btn-continuar btn-continuar--simple" id="edad-continuar" type="submit" disabled>
+            <span class="btn-continuar__label">CONTINUAR</span>
+          </button>
+        </form>
+      </div>
+    </section>
+
+    <!-- ========== PANTALLA 5: CARGANDO ========== -->
+    <section class="screen screen--cargando" data-screen="cargando">
+      <!-- PENDING: poner la ilustración real en assets/cargando.jpg -->
+      <!-- 👉 FONDO de la pantalla de carga: reemplaza el archivo assets/cargando.jpg (o cambia su línea en styles.css, busca "cargando.jpg") -->
+      <div class="cargando__bg" aria-hidden="true"></div>
+
+      <div class="cargando__content">
+        <img class="logo logo--cargando" src="assets/logo.png?v=3" alt="La vida de Max" />
+
+        <div class="cargando__bottom">
+          <p class="cargando__text">Prepara tu curiosidad, ¡ya casi llegamos!</p>
+          <div class="progress" id="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Cargando">
+            <div class="progress__fill" id="progress-fill"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== PANTALLA 6: NOMBRE Y COMPAÑERO (Paso 1 de 4) ========== -->
+    <section class="screen screen--nombre" data-screen="nombre">
+      <!-- Fondo: assets/cocina.jpg con degradado blanco (ver --fondo-nombre en styles.css) -->
+      <!-- 👉 FONDO de Nombre y compañero: styles.css → --fondo-nombre (assets/cocina.jpg) -->
+      <div class="nombre__bg" aria-hidden="true"></div>
+
+      <div class="nombre__content">
+        <div class="steps">
+          <span class="steps__label">Paso 1 de 4</span>
+          <span class="steps__dots" aria-hidden="true"><i class="is-on"></i><i></i><i></i><i></i></span>
+        </div>
+
+        <h2 class="nombre__title">Dale un nombre a tu mejor amigo</h2>
+
+        <!-- Campo de texto: en el celular abre el teclado normal -->
+        <input
+          class="nombre__input"
+          id="nombre-input"
+          type="text"
+          maxlength="12"
+          autocomplete="off"
+          autocapitalize="words"
+          spellcheck="false"
+          enterkeyhint="done"
+          placeholder="Escribe su nombre"
+          aria-label="Nombre de tu mejor amigo"
+        />
+
+        <h3 class="nombre__subtitle">¡Elige a tu compañero!</h3>
+
+        <div class="pets" id="pets" role="radiogroup" aria-label="Elige a tu compañero">
+
+          <button type="button" class="pet" role="radio" aria-checked="false" data-pet="perrito">
+            <span class="pet__check" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>
+            </span>
+            <span class="pet__info">
+              <span class="pet__tag">¡Soy Juguetón!</span>
+              <span class="pet__name">Perrito</span>
+              <span class="pet__desc">Le encanta correr por el patio y dar amor.</span>
+            </span>
+            <!-- PENDING: imagen final en assets/perrito.png -->
+            <img class="pet__img" src="assets/perrito.png?v=3" alt="" />
+          </button>
+
+          <button type="button" class="pet" role="radio" aria-checked="false" data-pet="gatito">
+            <span class="pet__check" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>
+            </span>
+            <span class="pet__info">
+              <span class="pet__tag">¡Soy curioso!</span>
+              <span class="pet__name">Gatito</span>
+              <span class="pet__desc">Adora explorar rincones secretos y ronronear al sol.</span>
+            </span>
+            <!-- Imagen: assets/gatito.png (si la cambias, sube el número de ?v= para que el navegador la actualice) -->
+            <img class="pet__img" src="assets/gatito.png?v=3" alt="" />
+          </button>
+
+        </div>
+
+        <!-- Se habilita solo cuando se elige un compañero -->
+        <button class="btn-continuar nombre__continuar" id="nombre-continuar" type="button" disabled>
+          <svg class="btn-continuar__paw" viewBox="0 0 64 64" aria-hidden="true">
+            <ellipse cx="14" cy="28" rx="6" ry="8" transform="rotate(-20 14 28)" />
+            <ellipse cx="26" cy="16" rx="6" ry="8" transform="rotate(-8 26 16)" />
+            <ellipse cx="40" cy="16" rx="6" ry="8" transform="rotate(8 40 16)" />
+            <ellipse cx="52" cy="28" rx="6" ry="8" transform="rotate(20 52 28)" />
+            <path d="M32 30c-9 0-18 9-18 17 0 6 5 9 10 9 3 0 5-1 8-1s5 1 8 1c5 0 10-3 10-9 0-8-9-17-18-17z" />
+          </svg>
+          <span class="btn-continuar__label">CONTINUAR</span>
+          <span class="btn-continuar__arrow" aria-hidden="true">›</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ========== PANTALLA 7: RAZAS (Paso 2 de 4) ========== -->
+    <section class="screen screen--razas" data-screen="razas">
+      <!-- Fondo: assets/cocina.jpg (ver --fondo-razas en styles.css) -->
+      <!-- 👉 FONDO de Razas: styles.css → --fondo-razas (assets/cocina.jpg) -->
+      <div class="razas__bg" aria-hidden="true"></div>
+
+      <div class="razas__content">
+        <div class="steps">
+          <span class="steps__label">Paso 2 de 4</span>
+          <span class="steps__dots" aria-hidden="true"><i></i><i class="is-on"></i><i></i><i></i></span>
+        </div>
+
+        <!-- Pestañas Perritos / Gatitos -->
+        <div class="tabs" role="tablist" aria-label="Tipo de mascota">
+          <button type="button" class="tab is-active" role="tab" aria-selected="true" data-tab="perrito"><span aria-hidden="true">🐶</span> Perritos</button>
+          <button type="button" class="tab" role="tab" aria-selected="false" data-tab="gatito"><span aria-hidden="true">🐱</span> Gatitos</button>
+        </div>
+
+        <h2 class="razas__title">¿Cuál es tu raza favorita?</h2>
+        <p class="razas__sub">Desliza para descubrir todas las razas adorables ✨</p>
+
+        <!-- Slider: las tarjetas se crean en app.js a partir de la lista BREEDS -->
+        <div class="carousel">
+          <div class="carousel__stage" id="carousel-stage" tabindex="0" role="group" aria-roledescription="carrusel" aria-label="Razas"></div>
+        </div>
+        <div class="carousel__dots" id="carousel-dots" aria-hidden="true"></div>
+
+        <div class="razas__actions">
+          <button type="button" class="btn-atras" id="razas-atras" aria-label="Volver al paso anterior">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 14 4 9l5-5" /><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11" /></svg>
+          </button>
+          <button type="button" class="btn-continuar" id="razas-continuar">
+            <svg class="btn-continuar__paw" viewBox="0 0 64 64" aria-hidden="true">
+              <ellipse cx="14" cy="28" rx="6" ry="8" transform="rotate(-20 14 28)" />
+              <ellipse cx="26" cy="16" rx="6" ry="8" transform="rotate(-8 26 16)" />
+              <ellipse cx="40" cy="16" rx="6" ry="8" transform="rotate(8 40 16)" />
+              <ellipse cx="52" cy="28" rx="6" ry="8" transform="rotate(20 52 28)" />
+              <path d="M32 30c-9 0-18 9-18 17 0 6 5 9 10 9 3 0 5-1 8-1s5 1 8 1c5 0 10-3 10-9 0-8-9-17-18-17z" />
+            </svg>
+            <span class="btn-continuar__label">CONTINUAR</span>
+            <span class="btn-continuar__arrow" aria-hidden="true">›</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== PANTALLA 8: TOQUE ESPECIAL — género y accesorio (Paso 3 de 4) ========== -->
+    <section class="screen screen--toque" data-screen="toque">
+      <!-- Fondo: assets/cocina.jpg (ver --fondo-razas en styles.css) -->
+      <!-- 👉 FONDO de Toque especial: styles.css → --fondo-razas (el mismo de Razas) -->
+      <div class="toque__bg" aria-hidden="true"></div>
+
+      <div class="toque__content">
+        <div class="steps">
+          <span class="steps__label">Paso 3 de 4</span>
+          <span class="steps__dots" aria-hidden="true"><i></i><i></i><i class="is-on"></i><i></i></span>
+        </div>
+
+        <h2 class="toque__title">¡Dale tu toque especial!</h2>
+        <p class="toque__sub">Elige su género y el accesorio que mejor refleje su alegre personalidad.</p>
+
+        <!-- Mascota: la imagen y el accesorio puesto se arman en app.js -->
+        <div class="mascota" aria-live="polite">
+          <div class="mascota__inner" id="mascota-inner">
+            <img class="mascota__img" id="mascota-img" alt="Tu mascota" draggable="false" />
+            <div class="mascota__acc" id="mascota-acc"></div>
+          </div>
+        </div>
+
+        <p class="toque__label">Género</p>
+        <div class="genero" role="radiogroup" aria-label="Género de tu mascota">
+          <button type="button" class="genero__btn is-active" role="radio" aria-checked="true" data-genero="macho">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10" cy="14" r="5.5"/><path d="M14 10l6-6M15 4h5v5"/></svg>
+            Macho
+          </button>
+          <button type="button" class="genero__btn" role="radio" aria-checked="false" data-genero="hembra">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="9" r="5.5"/><path d="M12 14.5V22M8.5 18.5h7"/></svg>
+            Hembra
+          </button>
+        </div>
+
+        <p class="toque__label toque__label--left">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7l8 3 8-3-2 6-6 8-6-8z" fill="#E2703F"/></svg>
+          Elige su accesorio
+        </p>
+        <div class="chips" id="acc-chips" role="tablist" aria-label="Categorías de accesorios"></div>
+        <div class="acc-grid" id="acc-grid"></div>
+
+        <div class="razas__actions toque__actions">
+          <button type="button" class="btn-atras" id="toque-atras" aria-label="Volver al paso anterior">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 14 4 9l5-5" /><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11" /></svg>
+          </button>
+          <button type="button" class="btn-continuar" id="toque-continuar">
+            <svg class="btn-continuar__paw" viewBox="0 0 64 64" aria-hidden="true">
+              <ellipse cx="14" cy="28" rx="6" ry="8" transform="rotate(-20 14 28)" />
+              <ellipse cx="26" cy="16" rx="6" ry="8" transform="rotate(-8 26 16)" />
+              <ellipse cx="40" cy="16" rx="6" ry="8" transform="rotate(8 40 16)" />
+              <ellipse cx="52" cy="28" rx="6" ry="8" transform="rotate(20 52 28)" />
+              <path d="M32 30c-9 0-18 9-18 17 0 6 5 9 10 9 3 0 5-1 8-1s5 1 8 1c5 0 10-3 10-9 0-8-9-17-18-17z" />
+            </svg>
+            <span class="btn-continuar__label">CONTINUAR</span>
+            <span class="btn-continuar__arrow" aria-hidden="true">›</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== PANTALLA 9: RINCÓN FELIZ (Paso 4 de 4) — camita y juguetes ========== -->
+    <section class="screen screen--rincon" data-screen="rincon">
+      <!-- Fondo: assets/cocina.jpg (ver --fondo-rincon en styles.css) -->
+      <!-- 👉 FONDO del Rincón feliz: styles.css → --fondo-rincon (assets/cocina.jpg) -->
+      <div class="rincon__bg" aria-hidden="true"></div>
+
+      <div class="rincon__content">
+        <div class="rincon__scroll">
+          <div class="steps">
+            <span class="steps__label">Paso 4 de 4</span>
+            <span class="steps__dots" aria-hidden="true"><i></i><i></i><i></i><i class="is-on"></i></span>
+          </div>
+
+          <h2 class="rincon__title">¡Prepara su rincón feliz!</h2>
+          <p class="rincon__sub">Elige su camita soñada y sus juguetes favoritos para comenzar su aventura.</p>
+
+          <!-- 1. Camita: se desliza de lado, se elige una -->
+          <div class="rincon__head">
+            <span class="rincon__num">1</span>
+            <h3 class="rincon__h">Elige su Camita</h3>
+            <span class="rincon__count" id="camas-count">0 de 4 elegida</span>
+          </div>
+          <div class="camas" id="camas" role="radiogroup" aria-label="Camita"></div>
+
+          <!-- 2. Juguetes: se eligen 2 -->
+          <div class="rincon__head">
+            <span class="rincon__num">2</span>
+            <h3 class="rincon__h">Primeros Juguetes</h3>
+            <span class="rincon__pill" id="juguetes-count">0 de 2 elegidos</span>
+          </div>
+          <p class="rincon__hint">Elige 2 juguetes para llenar su canastita de diversión.</p>
+          <div class="juguetes" id="juguetes" role="group" aria-label="Juguetes"></div>
+        </div>
+
+        <div class="razas__actions">
+          <button type="button" class="btn-atras" id="rincon-atras" aria-label="Volver al paso anterior">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 14 4 9l5-5" /><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11" /></svg>
+          </button>
+          <!-- Se habilita cuando hay 1 camita y 2 juguetes -->
+          <button type="button" class="btn-continuar" id="rincon-continuar" disabled>
+            <svg class="btn-continuar__paw" viewBox="0 0 64 64" aria-hidden="true">
+              <ellipse cx="14" cy="28" rx="6" ry="8" transform="rotate(-20 14 28)" />
+              <ellipse cx="26" cy="16" rx="6" ry="8" transform="rotate(-8 26 16)" />
+              <ellipse cx="40" cy="16" rx="6" ry="8" transform="rotate(8 40 16)" />
+              <ellipse cx="52" cy="28" rx="6" ry="8" transform="rotate(20 52 28)" />
+              <path d="M32 30c-9 0-18 9-18 17 0 6 5 9 10 9 3 0 5-1 8-1s5 1 8 1c5 0 10-3 10-9 0-8-9-17-18-17z" />
+            </svg>
+            <span class="btn-continuar__label">CONTINUAR</span>
+            <span class="btn-continuar__arrow" aria-hidden="true">›</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== PANTALLA 10: CUARTO (pantalla principal) ========== -->
+    <section class="screen screen--room" data-screen="cuarto">
+      <!-- Fondo: assets/cuarto-macho.jpg o cuarto-hembra.jpg, según el género (ver applyRoomBg en app.js) -->
+      <!-- 👉 FONDO del cuarto / vestuario / comida / minijuegos: reemplaza assets/cuarto-macho.jpg (niño) y assets/cuarto-hembra.jpg (niña) — sin cama ni juguetes -->
+      <div class="room__bg" aria-hidden="true"></div>
+      <div class="hud" data-hud></div>
+      <div class="bubble" id="bubble" aria-live="polite"></div>
+      <button type="button" class="pet-pill" id="pet-pill">♥ Acaricíame +5</button>
+      <div class="pstage pstage--room" id="stage-room"></div>
+      <button type="button" class="extra" id="extra" hidden></button>
+      <div class="mision" id="mision"></div>
+      <nav class="nav" data-nav="cuarto"></nav>
+    </section>
+
+    <!-- ========== PANTALLA 11: VESTUARIO — accesorios, pose y foto ========== -->
+    <section class="screen screen--room" data-screen="vestuario" id="vest">
+      <!-- 👉 FONDO del cuarto / vestuario / comida / minijuegos: reemplaza assets/cuarto-macho.jpg (niño) y assets/cuarto-hembra.jpg (niña) — sin cama ni juguetes -->
+      <div class="room__bg" aria-hidden="true"></div>
+      <div class="hud" data-hud></div>
+      <div class="vcol vcol--l" id="vcol-l"></div>
+      <div class="vcol vcol--r" id="vcol-r"></div>
+      <div class="pstage pstage--vest" id="stage-vest"><div class="platform"></div></div>
+      <div class="sheet" id="sheet" hidden>
+        <div class="sheet__cards" id="sheet-cards"></div>
+        <div class="sheet__actions">
+          <button type="button" class="btn-mini" id="look-reset" aria-label="Deshacer cambios">↺</button>
+          <button type="button" class="btn-continuar" id="look-save">GUARDAR LOOK</button>
+        </div>
+      </div>
+      <nav class="nav" data-nav="vestuario"></nav>
+    </section>
+
+    <!-- PENDING: pantallas de Comida y Minijuegos (esperando diseño) -->
+    <!-- ========== PANTALLA 12: COMIDA — se arrastra la comida al plato ========== -->
+    <section class="screen screen--room" data-screen="comida" id="comida">
+      <!-- 👉 FONDO del cuarto / vestuario / comida / minijuegos: reemplaza assets/cuarto-macho.jpg (niño) y assets/cuarto-hembra.jpg (niña) — sin cama ni juguetes -->
+      <div class="room__bg" aria-hidden="true"></div>
+      <div class="hud" data-hud></div>
+      <div class="pstage pstage--comida" id="stage-comida"></div>
+      <div class="bowl" id="bowl" aria-label="Plato de Max">
+        <div class="bowl__body"></div>
+        <div class="bowl__top"><div class="bowl__food" id="bowl-food"></div></div>
+      </div>
+      <div class="eat" id="eat" hidden><i></i><i></i><i></i><span>Ñam ñam</span></div>
+      <p class="comida__hint" id="comida-hint">Arrastra la comida hasta el plato 🍽️</p>
+      <div class="menu" id="menu" role="list" aria-label="Menú de comida"></div>
+      <nav class="nav" data-nav="comida"></nav>
+    </section>
+    <!-- ========== PANTALLA 13: MINIJUEGOS — detective diario, 4 juegos y ruleta ========== -->
+    <section class="screen screen--room" data-screen="minijuegos" id="mj">
+      <!-- 👉 FONDO del cuarto / vestuario / comida / minijuegos: reemplaza assets/cuarto-macho.jpg (niño) y assets/cuarto-hembra.jpg (niña) — sin cama ni juguetes -->
+      <div class="room__bg" aria-hidden="true"></div>
+      <div class="hud" data-hud></div>
+      <div class="mj">
+        <article class="det" id="det"></article>
+        <div class="games" id="games"></div>
+        <div class="ruleta">
+          <span class="ruleta__ic">🎲</span>
+          <div><b>Ruleta ✨</b><small id="ruleta-txt"></small></div>
+          <button type="button" class="gira" id="ruleta-btn">⟳ GIRAR</button>
+        </div>
+      </div>
+      <nav class="nav" data-nav="minijuegos"></nav>
+    </section>
+
+    <!-- ========== PANTALLA 14: AJUSTES (⚙ de la barra de arriba) ========== -->
+    <section class="screen screen--panel" data-screen="ajustes">
+      <!-- 👉 CAMBIA EL FONDO de ajustes, perfil y galletitas en styles.css → --fondo-panel -->
+      <!-- 👉 FONDO de Ajustes, Perfil y Galletitas: styles.css → --fondo-panel (assets/fondo-paneles.jpg) -->
+      <div class="panel__bg" aria-hidden="true"></div>
+      <header class="panel__head"><button type="button" class="btn-atras panel__back" data-back aria-label="Volver"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 14 4 9l5-5" /><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11" /></svg></button><h2>Ajustes</h2></header>
+      <div class="panel__body" id="ajustes-body"></div>
+    </section>
+
+    <!-- ========== PANTALLA 15: PERFIL DE LA MASCOTA (se abre tocando el nivel / la foto) ========== -->
+    <section class="screen screen--panel" data-screen="perfil">
+      <!-- 👉 FONDO de Ajustes, Perfil y Galletitas: styles.css → --fondo-panel (assets/fondo-paneles.jpg) -->
+      <div class="panel__bg" aria-hidden="true"></div>
+      <header class="panel__head"><button type="button" class="btn-atras panel__back" data-back aria-label="Volver"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 14 4 9l5-5" /><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11" /></svg></button><h2>Mi mascota</h2></header>
+      <div class="panel__body">
+        <div class="pstage pstage--perfil" id="perfil-pet"></div>
+        <div class="perfil__cards" id="perfil-body"></div>
+      </div>
+    </section>
+
+    <!-- ========== PANTALLA 16: GALLETITAS (se abre tocando las galletitas de arriba) ========== -->
+    <section class="screen screen--panel" data-screen="galletas">
+      <!-- 👉 FONDO de Ajustes, Perfil y Galletitas: styles.css → --fondo-panel (assets/fondo-paneles.jpg) -->
+      <div class="panel__bg" aria-hidden="true"></div>
+      <header class="panel__head"><button type="button" class="btn-atras panel__back" data-back aria-label="Volver"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 14 4 9l5-5" /><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11" /></svg></button><h2>Mis galletitas</h2></header>
+      <div class="panel__body" id="galletas-body"></div>
+    </section>
+
+    <!-- Foto polaroid (se abre desde el vestuario) -->
+    <div class="polaroid" id="polaroid" hidden>
+      <div class="polaroid__flash"></div>
+      <div class="polaroid__card"><div class="polaroid__photo" id="pola-photo"></div><p class="polaroid__cap" id="pola-cap"></p></div>
+      <div class="polaroid__btns">
+        <button type="button" class="btn-atras" id="pola-close" aria-label="Cerrar">✕</button>
+        <button type="button" class="btn-continuar" id="pola-again">OTRA FOTO</button>
+      </div>
+    </div>
+    <div class="modal" id="modal" hidden></div>
+    <!-- Letrero de nivel nuevo (se llena desde app.js → showLevelSign) -->
+    <div class="levelup" id="levelup" hidden></div>
+    <div class="toast" id="toast" role="status"></div>
+
+    <!-- ========== PANTALLA 17: SIGUIENTE (placeholder hasta recibir el diseño) ========== -->
+    <section class="screen" data-screen="siguiente">
+      <div class="placeholder">
+        <h2>Siguiente pantalla</h2>
+        <p>PENDING — esperando el diseño de la pantalla 10.</p>
+        <p class="placeholder__resumen" id="resumen"></p>
+        <button class="btn-volver" data-go="rincon">← Volver</button>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
